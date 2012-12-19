@@ -39,7 +39,7 @@ grade:
 TURNIN   := /lusr/bin/turnin
 GRADER   := imr
 LAB_NAME := cs439-lab1
-TARBALL  := lab1.tar.gz
+TARBALL  := lab1-handin.tar.gz
 
 # Most of the next two rules ripped from MIT JOS.
 tarball:
