@@ -1,0 +1,17 @@
+obj
+lab?-handin.tar.gz
+lab??-handin.tar.gz
+.*.swp
+*~
+slirp.cap
+wget.log
+qemu.out
+jos.in
+jos.out
+jos.log
+jos.out.*
+.gdbinit
+qemu.pcap
+qemu.pcap.*
+qemu.log
+gradelib.pyc
