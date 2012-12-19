@@ -34,7 +34,7 @@ clean: always clean-logs
 grade:
 	@echo $(MAKE) clean
 	@$(MAKE) -s --no-print-directory clean
-	@./grade-lab
+	@./grade-lab1
 
 TURNIN   := /lusr/bin/turnin
 GRADER   := imr
