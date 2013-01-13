@@ -63,3 +63,6 @@ turnin: tarball
 	$(TURNIN) --submit $(GRADER) $(LAB_NAME)$* $(TARBALL)
 
 .PHONY: all always
+
+tidy: always
+	git clean -dff
