@@ -235,4 +235,7 @@ always:
 	@:
 
 .PHONY: all always \
-	handin tarball clean realclean distclean grade
+	handin tarball clean realclean distclean grade tidy
+
+tidy:
+	git clean -dff
