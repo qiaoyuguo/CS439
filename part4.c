@@ -5,7 +5,7 @@
 
 // Set the x and y fields of the point structure pointed to by pt
 // to the x and y values passed in as arguments.  The point structure
-// is defined in the part3.h header file.
+// is defined in the part4.h header file.
 //
 // This should only take a couple of lines.
 void
