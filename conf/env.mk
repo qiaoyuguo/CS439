@@ -20,5 +20,5 @@ V = @
 # QEMU=
 
 GRADER = imr
-COURSE = cs439
+COURSE = cs439w
 MKLABENV = CLASS_UTAUSTIN=true
