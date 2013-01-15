@@ -11,12 +11,13 @@ extern void free_node(struct list_node *node);
 // specified node.  The next pointer of the head node should point
 // to the new node, and the next pointer of the new node should
 // point to the old next pointer of the head node.  As an example,
-// consider the following linked list:
+// consider the following linked list (the first field is 'value', and
+// the second field is 'next'):
 //
 // |---------|      |---------|
-// |    0    |  /-> |    2    |  /-> NULL
-// |---------| /    |---------| /
-// | next  ----     | next  ----
+// |    0    |  /-> |    2    | 
+// |---------| /    |---------| 
+// |       ----     |   NULL  | 
 // |---------|      |---------|
 // 
 // If the head node pointer refers to the node with the value 0,
@@ -24,9 +25,9 @@ extern void free_node(struct list_node *node);
 // structure after the list_insert call should be as follows:
 //
 // |---------|      |---------|      |---------|
-// |    0    |  /-> |    1    |  /-> |    2    |  /-> NULL
-// |---------| /    |---------| /    |---------| /
-// | next  ----     | next  ----     | next  ----
+// |    0    |  /-> |    1    |  /-> |    2    |  
+// |---------| /    |---------| /    |---------| 
+// |       ----     |       ----     |  NULL   |
 // |---------|      |---------|      |---------|
 //
 // Use alloc_node to create a new node.  Don't forget to set its
@@ -48,9 +49,9 @@ list_insert(struct list_node *head, int value)
 // As an example, consider the following linked list:
 //
 // |---------|      |---------|      |---------|
-// |    0    |  /-> |    1    |  /-> |    2    |  /-> NULL
-// |---------| /    |---------| /    |---------| /
-// | next  ----     | next  ----     | next  ----
+// |    0    |  /-> |    1    |  /-> |    2    |  
+// |---------| /    |---------| /    |---------| 
+// |       ----     |       ----     |  NULL   |
 // |---------|      |---------|      |---------|
 //
 // If the head node pointer refers to the node with the value 0,
@@ -73,9 +74,9 @@ list_end(struct list_node *head)
 // As an example, consider the following linked list:
 //
 // |---------|      |---------|      |---------|
-// |    0    |  /-> |    1    |  /-> |    2    |  /-> NULL
-// |---------| /    |---------| /    |---------| /
-// | next  ----     | next  ----     | next  ----
+// |    0    |  /-> |    1    |  /-> |    2    |  
+// |---------| /    |---------| /    |---------| 
+// |       ----     |       ----     |   NULL  |
 // |---------|      |---------|      |---------|
 //
 // If the head node pointer refers to the node with the value 0,
@@ -100,9 +101,9 @@ list_size(struct list_node *head)
 // As an example, consider the following linked list:
 //
 // |---------|      |---------|      |---------|
-// |    0    |  /-> |    1    |  /-> |    2    |  /-> NULL
-// |---------| /    |---------| /    |---------| /
-// | next  ----     | next  ----     | next  ----
+// |    0    |  /-> |    1    |  /-> |    2    |  
+// |---------| /    |---------| /    |---------| 
+// |       ----     |       ----     |   NULL  |
 // |---------|      |---------|      |---------|
 //
 // If the head pointer refers to the node with the value 0, and predp
@@ -139,9 +140,9 @@ list_find(struct list_node *head, int value, struct list_node **predp)
 // As an example, consider the following linked list:
 //
 // |---------|      |---------|      |---------|
-// |    0    |  /-> |    1    |  /-> |    2    |  /-> NULL
-// |---------| /    |---------| /    |---------| /
-// | next  ----     | next  ----     | next  ----
+// |    0    |  /-> |    1    |  /-> |    2    |  
+// |---------| /    |---------| /    |---------| 
+// |       ----     |       ----     |   NULL  |
 // |---------|      |---------|      |---------|
 //
 // If the head pointer refers to the node with the value 0 and
@@ -150,9 +151,9 @@ list_find(struct list_node *head, int value, struct list_node **predp)
 // be as follows:
 //
 // |---------|      |---------|
-// |    0    |  /-> |    2    |  /-> NULL
-// |---------| /    |---------| /
-// | next  ----     | next  ----
+// |    0    |  /-> |    2    |  
+// |---------| /    |---------| 
+// |       ----     |   NULL  |
 // |---------|      |---------|
 //
 // If we consider the original list, and list_remove(head, 0) is called,
@@ -160,9 +161,9 @@ list_find(struct list_node *head, int value, struct list_node **predp)
 // with the value 1 and the new linked list structure should be as follows:
 //
 // |---------|      |---------|
-// |    1    |  /-> |    2    |  /-> NULL
-// |---------| /    |---------| /
-// | next  ----     | next  ----
+// |    1    |  /-> |    2    |  
+// |---------| /    |---------| 
+// |       ----     |   NULL  |
 // |---------|      |---------|
 //
 // Hint: Use list_find to get the node to remove and its predecessor,
