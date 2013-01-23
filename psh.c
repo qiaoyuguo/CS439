@@ -98,11 +98,8 @@ int main(int argc, char **argv)
  * If the user has requested a built-in command (quit)
  * then execute it immediately. Otherwise, fork a child process and
  * run the job in the context of the child. If the job is running in
- * the foreground, wait for it to terminate and then return.  Note:
- * each child process must have a unique process group ID so that our
- * background children don't receive SIGINT (SIGTSTP) from the kernel
- * when we type ctrl-c (ctrl-z) at the keyboard.  
-*/
+ * the foreground, wait for it to terminate and then return.
+ */
 void eval(char *cmdline) 
 {
   // TODO: Your code here.
