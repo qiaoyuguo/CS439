@@ -37,8 +37,11 @@ list_insert(struct list_node *head, int value)
 {
 	assert(head != NULL);
 
-	// TODO: Your code here.
-	assert(0);
+        struct list_node *cur_node = alloc_node();
+        cur_node->value = value;
+        cur_node->next = NULL;
+        cur_node->next = head->next;
+        head->next = cur_node;
 }
 
 // Return a pointer to the last node in a linked list, starting
@@ -62,9 +65,9 @@ list_end(struct list_node *head)
 {
 	assert(head != NULL);
 
-	// TODO: Your code here.
-	assert(0);
-	return NULL;
+	while(head->next != NULL)
+	    head = head->next;
+	return  head;
 }
 
 // Return the number of nodes in a linked list, starting from the
@@ -86,11 +89,15 @@ list_end(struct list_node *head)
 int
 list_size(struct list_node *head)
 {
+        int count = 0;
 	assert(head != NULL);
 
-	// TODO: Your code here.
-	assert(0);
-	return 0;
+	while(head != NULL)
+        {
+	    head = head->next;
+	    ++count;
+	}
+	return count;
 }
 
 // Return a pointer to the first node in the given linked list
@@ -119,10 +126,21 @@ list_find(struct list_node *head, int value, struct list_node **predp)
 {
 	assert(head != NULL);
 	assert(predp != NULL);
-
-	// TODO: Your code here.
-	assert(0);
-	return NULL;
+        *predp = NULL; 
+	while(head  != NULL && head->value != value)
+        {
+	    *predp = head;
+	    head = head->next;
+	}
+	if(head != NULL)
+        {
+            return head;
+        }
+        else
+        {
+            *predp = NULL;
+            return NULL;
+	}
 }
 
 // Remove a node from the given linked list (starting at the given head)
@@ -178,7 +196,18 @@ list_remove(struct list_node **headp, int value)
 	assert(headp != NULL);
 	assert(*headp != NULL);
 
-	// TODO: Your code here.
-	assert(0);
-	return 0;
+        struct list_node *predp;
+        struct list_node *target_node = list_find(*headp, value, &predp);
+        if(target_node == NULL)
+        {
+            return 0;
+        }
+
+        if(predp != NULL)
+            predp->next = target_node->next;
+        else
+            *headp = (*headp)->next;
+        free_node(target_node);
+
+        return 1;
 }
