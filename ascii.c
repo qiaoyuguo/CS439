@@ -41,11 +41,63 @@ main(int argc, char **argv)
 int
 generate_ascii(char *output_file, int rows, int cols)
 {
+        int i = 0,j = 0;
 	int rand_fd, out_fd;
+	int c;
+	int ret;
+	int rc;
 
-	//TODO: Your code goes here.
-	fprintf(stderr, "Error: generate_ascii not implemented\n");
-	return -1;
+        rand_fd = open("/dev/urandom", O_RDONLY | O_TRUNC | O_CREAT, 0600);
+        if(rand_fd  < 0)
+        {
+            fprintf(stderr, "Could't open %s, Error: %s\n", "dev/urandom", strerror(errno));
+            return -1;
+        }
+        if((out_fd = open(output_file, O_WRONLY | O_TRUNC | O_CREAT, 0600)) < 0)
+        {
+            fprintf(stderr, "Could't open %s, Error: %s\n", output_file, strerror(errno));
+            return -1;
+        }
+        do
+        {
+            if(j == cols)
+            {
+                c = '\n';
+                rc = write(out_fd, &c, 1);
+                if(rc == -1)
+                {
+                    fprintf(stderr, "Could't write to %s, Error: %s\n", output_file, strerror(errno));
+                    return -1;
+                }
+                ++i;
+                if(i == cols)
+                    break;
+                j = 0;
+            }
+           ret = read(rand_fd, &c, 1);
+            if(ret == -1)
+            {
+
+                fprintf(stderr, "Could't read from %s, Error: %s\n", "/dev/urandom", strerror(errno));
+                return -1;
+            }
+            if(c >= 33 && c <= 126)
+            {
+                rc = write(out_fd, &c, 1);
+                if(rc == -1)
+                {
+                    fprintf(stderr, "Could't write to %s, Error: %s\n", output_file, strerror(errno));
+                    return -1;
+                }
+                ++j;
+            }
+
+        }while(ret > 0 && i < rows);
+
+	close(rand_fd);
+	close(out_fd);
+
+	return 0;
 }
 
 
@@ -75,8 +127,66 @@ int
 fibonacci_ascii(char *file_in, char *file_out)
 {
 	int in_fd, out_fd;
+	ssize_t rc;
+	int first = 1;
+	int fib1 = 0, fib2 = 1, pos;
+	int c;
+	int ret;
 
-	//TODO: Your code here.
-	fprintf(stderr, "Error: fibonacci_ascii not implemented\n");
-	return -1;
+        if( (in_fd = open(file_in, O_RDONLY)) < 0)
+        {
+            fprintf(stderr, "Could't open %s, Error: %s\n", file_in, strerror(errno));
+            return -1;
+        }
+
+	if((out_fd = open(file_out, O_WRONLY | O_TRUNC | O_CREAT, 0600)) < 0)
+        {
+            fprintf(stderr, "Could't open %s, Error: %s\n", file_in, strerror(errno));
+            return -1;
+        }
+
+        do
+        {
+            
+            if(first)
+            {
+                pos = fib1;
+                first = 0;
+            }
+            else
+            {
+                int tmp;
+                pos = fib2;
+                tmp = fib2;
+                fib2 += fib1;
+                fib1 = tmp;
+            }
+            ret = lseek(in_fd, pos, SEEK_SET);
+            if(ret < 0)
+            {
+                break;
+                //fprintf(stderr, "Could't seek  position %d in file %s, Error: %s\n",pos,  "/dev/urandom", strerror(errno));
+                //return -1;
+            }
+            rc = read(in_fd, &c, 1);
+            if(rc < 0)
+            {
+                fprintf(stderr, "Could't read from file %s, Error: %s\n",  file_in, strerror(errno));
+                return -1;
+            }
+            else if(rc == 0)
+            {
+                c = '\n';
+            }
+            int rt = write(out_fd, &c, 1);
+            if(rt == -1)
+            {
+                fprintf(stderr, "Could't write %s, Error: %s\n", file_in, strerror(errno));
+            }
+        }while(rc > 0);
+
+        close(in_fd);
+        close(out_fd);
+
+        return 0;
 }

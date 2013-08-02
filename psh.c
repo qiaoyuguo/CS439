@@ -102,7 +102,42 @@ int main(int argc, char **argv)
  */
 void eval(char *cmdline) 
 {
-  // TODO: Your code here.
+    int argc;
+    char *argv[MAXARGS];
+    int bg;
+    int is_builtin;
+    int job_num = 0;
+
+    bg = parseline(cmdline, argv, &argc);
+   
+    is_builtin = builtin_cmd(argv);
+
+    if(!is_builtin)
+    {
+        int c_pid = fork();
+        if(c_pid == 0)
+        {
+            if(bg)
+            {
+                if(job_num >= MAXJOBS)
+                    exit(1);
+                ++job_num;
+            }
+            execvp(*argv, argv);
+        }
+        else if(c_pid > 0)
+        {
+            int status;
+            int ret_pid;
+            if(!bg)
+            {
+                ret_pid = waitpid(c_pid, &status, 0);
+                if(ret_pid != c_pid)
+                    unix_error("waitpid error");
+            }
+        }
+        
+    }
 }
 
 
@@ -114,7 +149,12 @@ void eval(char *cmdline)
  */
 int builtin_cmd(char **argv) 
 {
-  // TODO: Your code here.
+    if(strcmp(argv[0], "quit") == 0)
+    {
+        fflush(stdout);
+        exit(0);
+    }
+    return 0;
 }
 
 /***********************

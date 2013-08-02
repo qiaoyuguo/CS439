@@ -43,6 +43,18 @@ int main(int argc, char **argv)
   return 0;
 }
 
+static int exitcode(pid_t pid)
+{
+    pid_t retpid;
+    int status;
+    retpid = waitpid(pid, &status, 0);
+    if(pid != retpid)
+    {
+        printf("waitpid error\n");
+    }
+
+    return WEXITSTATUS(status);
+}
 /* 
  * Recursively compute the specified number. If print is
  * true, print it. Otherwise, provide it to my parent process.
@@ -51,8 +63,43 @@ int main(int argc, char **argv)
  * a new child for each call. Each process should call
  * doFib() exactly once.
  */
+/* borrow code from http://stackoverflow.com/questions/9311999/recursive-fibonacci-using-fork-in-c-pt-2 */
 static void 
 doFib(int n, int doPrint)
 {
-  //TODO: Your code here.
+    int cur_pid = getpid();
+    if(n < 2)
+        exit(n);
+    int pid1 = fork();
+    if(pid1 == 0)
+    {
+        doFib(n-1,  0);
+        exit(n-1);
+    }
+    else if(pid1 > 0) 
+    {
+        int pid2 = fork();
+        if(pid2 == 0)
+        {
+            doFib(n-2, 0);
+            exit(n-2);
+        }
+
+        int r1 = exitcode(pid1);
+        int r2 = exitcode(pid2);
+
+        if(getpid() == cur_pid)
+        {
+            int result = r1 + r2;
+            if(doPrint)
+            {
+                printf("%d\n", result);
+            }
+            else
+            {
+                exit(result);
+            }
+        }
+
+    }
 }
