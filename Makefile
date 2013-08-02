@@ -1,7 +1,7 @@
 # Makefile for the CS:APP Shell Lab, with modifications for CS439.
 
 CC = gcc
-CFLAGS = -Wall -O2
+CFLAGS = -Wall -O2 -g
 FILES = ./psh ./fib ./ascii
 
 all: $(FILES)
